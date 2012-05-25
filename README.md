@@ -13,6 +13,8 @@ The `PCTokenField` class is a drop-in replacement for `NSTokenField` with the ab
 The majority of this messaging is done through `PCTokenFieldDelegate`.
 
 
+<img src="http://i.imgur.com/X67GY.png"/>
+
 #PCTokenFieldDelegate#
 
 
