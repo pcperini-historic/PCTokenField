@@ -107,7 +107,7 @@
                     NSRect popoverRect = NSMakeRect(clickPoint.x - 2.5,
                                                     clickPoint.y - 2.5,
                                                     5, 5);
-                    [[NSApp keyWindow] convertRectFromScreen: popoverRect];
+                    popoverRect = [[NSApp keyWindow] convertRectFromScreen: popoverRect];
                     
                     // This is a weird workaround because the NSTokenField _really_ wants that menu back, ASAP.
                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, .1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void)
