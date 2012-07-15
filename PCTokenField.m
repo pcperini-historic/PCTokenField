@@ -59,6 +59,12 @@
     return self;
 }
 
+#pragma mark - Accessors
+- (NSArray *)allTokens
+{
+    return [[self stringValue] componentsSeparatedByCharactersInSet: [self tokenizingCharacterSet]];
+}
+
 #pragma mark - Overriding Delegation
 - (BOOL)tokenField:(NSTokenField *)tokenField hasMenuForRepresentedObject:(id)representedObject
 {
