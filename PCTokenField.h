@@ -24,4 +24,7 @@
 
 @property IBOutlet id<PCTokenFieldDelegate> delegate;
 
+#pragma mark - Accessors
+- (NSArray *)allTokens;
+
 @end
