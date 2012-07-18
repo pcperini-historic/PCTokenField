@@ -18,9 +18,6 @@
 @end
 
 @interface PCTokenField : NSTokenField <NSTokenFieldDelegate>
-{
-    NSObject<PCTokenFieldDelegate> *internalDelegate;
-}
 
 @property IBOutlet id<PCTokenFieldDelegate> delegate;
 

@@ -9,6 +9,10 @@
 #import "PCTokenField.h"
 
 @implementation PCTokenField
+{
+    NSObject<PCTokenFieldDelegate> *internalDelegate;
+    __weak id __self;
+}
 
 - (id<PCTokenFieldDelegate>)delegate
 {
@@ -22,7 +26,7 @@
 - (void)setDelegate:(id<PCTokenFieldDelegate>)delegate
 {
     internalDelegate = delegate;
-    [super setDelegate: self];
+    [super setDelegate: __self];
 }
 
 #pragma mark - Initializers
@@ -32,7 +36,8 @@
     if (!self)
         return nil;
     
-    [super setDelegate: self];
+    __self = self;
+    [self setDelegate: nil];
     
     return self;
 }
@@ -43,7 +48,8 @@
     if (!self)
         return nil;
     
-    [super setDelegate: self];
+    __self = self;
+    [self setDelegate: nil];
     
     return self;
 }
@@ -54,7 +60,8 @@
     if (!self)
         return nil;
     
-    [super setDelegate: self];
+    __self = self;
+    [self setDelegate: nil];
     
     return self;
 }
@@ -142,9 +149,14 @@
 - (BOOL)respondsToSelector:(SEL)aSelector
 {
     // This is a bit hacky.
+    // We need to check to make sure we still have our weak self-reference,
+    // otherwise we overrelease (probably in `super`'s `-respondsToSelector:`).
+    if (!__self)
+        return NO;
+    
+    // This is a bit hacky.
     // In addition to `super`'s methods, and `internalDelegate`'s methods,
     // we need to maintain a static list of our own internal methods. Not great.
-    
     BOOL respondsToSelector = NO;
     respondsToSelector |= [super respondsToSelector: aSelector];
     respondsToSelector |= [internalDelegate respondsToSelector: aSelector];
