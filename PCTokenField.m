@@ -66,6 +66,11 @@
     return self;
 }
 
+- (void)dealloc
+{
+    __self = nil;
+}
+
 #pragma mark - Accessors
 - (NSArray *)allTokens
 {
