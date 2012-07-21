@@ -7,18 +7,34 @@
 //
 
 #import "PCTokenField.h"
+#include <execinfo.h>
+#include <string.h>
 
 @implementation PCTokenField
 {
-    NSObject<PCTokenFieldDelegate> *internalDelegate;
+    id<PCTokenFieldDelegate> internalDelegate;
     __weak id __self;
 }
 
 - (id<PCTokenFieldDelegate>)delegate
 {
+    #define PCTokenField_UseCode 'O'
+    
+    // C Fast Code
+    # if PCTokenField_UseCode == 'C'
+    void *addr[2];
+    int nframes = backtrace(addr, sizeof(addr)/sizeof(*addr));
+    char **symbols = backtrace_symbols(addr, nframes);
+    symbols[1] += 60;
+    if (strstr(symbols[1], "NSTokenField") != NULL)
+        return (id<PCTokenFieldDelegate>) self;
+    
+    // Objective-C Safe Code
+    # elif PCTokenField_UseCode == 'O'
     NSString *stackSymbol = [[NSThread callStackSymbols] objectAtIndex: 1];
     if ([stackSymbol rangeOfString: NSStringFromClass([NSTokenField class])].location != NSNotFound)
         return (id<PCTokenFieldDelegate>) self;
+    #endif
     
     return internalDelegate;
 }
